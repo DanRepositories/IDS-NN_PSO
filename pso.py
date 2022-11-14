@@ -24,10 +24,10 @@ def init_pso(m, L, K, Np):
 	S = init_swarm(m, L, K, Np)
 	P = np.zeros(S.shape)
 	Pg = np.zeros(S.shape[1])
-
-def init_fitness(Np):
 	P_fit = np.zeros(Np)
 	Pg_fit = 0
+
+	return S, P, Pg, P_fit, Pg_fit
 
 def extract_weights(particle, m, L, K):
 	w = particle[:m * L].reshape((L, m))
@@ -55,7 +55,7 @@ def update_veloc():
 	pass
 
 def ann_train_pso(m, L, K, Np, max_iter):
-	S = init_swarm(m, L, K, Np)
+	S, P, pg, P_fit, Pg_fit = init_pso(m, L, K, Np)
 
 	for i in range(max_iter):
 		pass
