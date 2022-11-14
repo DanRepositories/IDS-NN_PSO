@@ -14,5 +14,10 @@ def load_data(file_data, file_label):
 
 	y = data_set[:, -1].astype(int)
 	X = np.delete(data_set, -1, axis=1)
-	return X, get_one_hot(y)
+	return X.T, get_one_hot(y).T
+
+def get_mse(y_predict, y_true):
+	e = y_predict - y_true
+	mse = np.sum(sp.sqrt(e))
+	return mse
 	

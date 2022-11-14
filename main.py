@@ -14,28 +14,26 @@ X_train, y_train = load_data(FILE_DATA_TRAIN, FILE_LABEL_TRAIN)
 X_test, y_test = load_data(FILE_DATA_TEST, FILE_LABEL_TEST)
 
 # Se carga la configuracion
-m = X_train.shape[1]		# Dimension del vector de entrada
+m = X_train.shape[0]		# Dimension del vector de entrada
 L = 5				# Cantidad de nodos de la capa oculta
-K = y_train.shape[1]		# Cantidad de nodos de la capa de salida
-mu = 0.1			# Tasa de aprendizaje
+K = y_train.shape[0]		# Cantidad de nodos de la capa de salida
+mu = 0.2			# Tasa de aprendizaje
 Np = 10				# Cantidad de particulas del enjambre
+max_iter = 2000			# Cantidad de iteraciones de la etapa de train
 
 # Se inicializan los pesos
 w = np.random.rand(L, m)
 v = np.random.rand(K, L)
 
 
-swarm = init_swarm(m, L, K, Np)
-print(swarm.shape) 
-
-"""
 # Se obtienen las funciones de activacion a utilizar
-fun, der_fun = get_function(1)
+fun, fun_ = get_function(5)
+outfun, outfun_ = get_function(5)
 
-y_predict = forward(X_train[0], w, v, fun, fun)
+# Se entrena la red
+w, v = ann_train(X_train, y_train, w, v, fun, fun_, outfun, outfun_, mu, max_iter)
 
-dE_dv, dE_dw = calc_gradient(X_train[0], y_train[0], w, v, fun, der_fun, fun, der_fun)
-
-u = u - mu * dE_dv
-w = w - mu * dE_dw
-"""
+y_predict = forward(X_test, w, v, fun, outfun)
+i = 15
+print(np.round(y_predict[:, :i].T))
+print(y_test[:, :i].T)
