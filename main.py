@@ -18,21 +18,28 @@ X_test, y_test = load_data(FILE_DATA_TEST, FILE_LABEL_TEST)
 m = X_train.shape[0]		# Dimension del vector de entrada
 L = 5				# Cantidad de nodos de la capa oculta
 K = y_train.shape[0]		# Cantidad de nodos de la capa de salida
-mu = 0.2			# Tasa de aprendizaje
+mu = 0.1			# Tasa de aprendizaje
 Np = 10				# Cantidad de particulas del enjambre
-max_iter = 2000			# Cantidad de iteraciones de la etapa de train
+max_iter_ann = 1000		# Cantidad de iteraciones de la etapa de train
+max_iter_pso = 1000		# Cantidad de iteraciones del pso
+
+# Se obtienen las funciones de activacion a utilizar
+fun, fun_ = get_function(5)
+outfun, outfun_ = get_function(5)
+
+cnf = {'m':m, 'L':L, 'K':K, 'mu':mu, 'Np':Np, 'max_iter_ann': max_iter_ann, 'max_iter_pso':max_iter_pso}
+cnf['fun'] = fun
+cnf['fun_'] = fun_
+cnf['outfun'] = outfun
+cnf['outfun_'] = outfun_
 
 # Se inicializan los pesos
 w = np.random.rand(L, m)
 v = np.random.rand(K, L)
 
 
-# Se obtienen las funciones de activacion a utilizar
-fun, fun_ = get_function(5)
-outfun, outfun_ = get_function(5)
-
 # Se entrena la red
-w, v = ann_train(X_train, y_train, w, v, fun, fun_, outfun, outfun_, mu, max_iter)
+w, v = ann_train(X_train, y_train, w, v, cnf)
 
 y_predict = np.round(forward(X_test, w, v, fun, outfun)).astype(int)
 
@@ -41,6 +48,6 @@ print(cm)
 print(get_metrics(cm))
 
 
-i = 10
+i = 5
 print(y_predict[:, :i].T)
 print(y_test[:, :i].T)
