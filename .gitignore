@@ -1,3 +1,7 @@
+# Archivos temporales de vim
+*.swp
+
+# Archivos del proyecto
 KDDTrain.txt
 KDDTest.txt
 *.csv
