@@ -3,6 +3,7 @@ from ann import *
 from my_utility import *
 from act_functions import get_function
 from pso import *
+from metrics import get_metrics, get_confusion_matrix
 
 FILE_DATA_TRAIN = 'dtrn.csv'
 FILE_LABEL_TRAIN = 'etrn.csv'
@@ -33,7 +34,13 @@ outfun, outfun_ = get_function(5)
 # Se entrena la red
 w, v = ann_train(X_train, y_train, w, v, fun, fun_, outfun, outfun_, mu, max_iter)
 
-y_predict = forward(X_test, w, v, fun, outfun)
-i = 15
-print(np.round(y_predict[:, :i].T))
+y_predict = np.round(forward(X_test, w, v, fun, outfun)).astype(int)
+
+cm = get_confusion_matrix(y_test, y_predict)
+print(cm)
+print(get_metrics(cm))
+
+
+i = 10
+print(y_predict[:, :i].T)
 print(y_test[:, :i].T)
