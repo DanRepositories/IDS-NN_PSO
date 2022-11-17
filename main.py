@@ -4,6 +4,7 @@ from my_utility import *
 from act_functions import get_function
 from pso import *
 from metrics import get_metrics, get_confusion_matrix
+from pso import ann_train_pso
 
 FILE_DATA_TRAIN = 'dtrn.csv'
 FILE_LABEL_TRAIN = 'etrn.csv'
@@ -16,11 +17,11 @@ X_test, y_test = load_data(FILE_DATA_TEST, FILE_LABEL_TEST)
 
 # Se carga la configuracion
 m = X_train.shape[0]		# Dimension del vector de entrada
-L = 5				# Cantidad de nodos de la capa oculta
+L = 10				# Cantidad de nodos de la capa oculta
 K = y_train.shape[0]		# Cantidad de nodos de la capa de salida
-mu = 0.1			# Tasa de aprendizaje
-Np = 10				# Cantidad de particulas del enjambre
-max_iter_ann = 1000		# Cantidad de iteraciones de la etapa de train
+mu = 0.05			# Tasa de aprendizaje
+Np = 20				# Cantidad de particulas del enjambre
+max_iter_ann = 1500		# Cantidad de iteraciones de la etapa de train
 max_iter_pso = 1000		# Cantidad de iteraciones del pso
 
 # Se obtienen las funciones de activacion a utilizar
@@ -33,21 +34,29 @@ cnf['fun_'] = fun_
 cnf['outfun'] = outfun
 cnf['outfun_'] = outfun_
 
-# Se inicializan los pesos
-w = np.random.rand(L, m)
-v = np.random.rand(K, L)
+f1_scores = []
+for i in range(5):
+	w, v = ann_train_pso(X_train, y_train, cnf)
+	y_predict = np.round(forward(X_test, w, v, fun, outfun)).astype(int)
 
+	#w = np.random.rand(L, m)
+	#v = np.random.rand(K, L)
 
-# Se entrena la red
-w, v = ann_train(X_train, y_train, w, v, cnf)
+	# Se entrena la red
+	#w, v = ann_train(X_train, y_train, w, v, cnf)
 
-y_predict = np.round(forward(X_test, w, v, fun, outfun)).astype(int)
+	#y_predict = np.round(forward(X_test, w, v, fun, outfun)).astype(int)
 
-cm = get_confusion_matrix(y_test, y_predict)
+	cm = get_confusion_matrix(y_test, y_predict)
+	f1 = get_metrics(cm)[-1]
+	f1_scores.append(f1)
+
+	print(cm)
+	print(get_metrics(cm))
+	print()
+
 print(cm)
-print(get_metrics(cm))
+mean_f1 = np.mean(f1_scores)
+std_f1 = np.std(f1_scores)
 
-
-i = 5
-print(y_predict[:, :i].T)
-print(y_test[:, :i].T)
+print(mean_f1, std_f1)

@@ -16,8 +16,9 @@ def load_data(file_data, file_label):
 	X = np.delete(data_set, -1, axis=1)
 	return X.T, get_one_hot(y).T
 
-def get_mse(y_predict, y_true):
-	e = y_predict - y_true
-	mse = np.sum(sp.sqrt(e))
+def get_mse(y_true, y_pred):
+	N = y_true.shape[1]
+	e = y_pred - y_true
+	mse = np.sum(e ** 2) / N
 	return mse
 	
