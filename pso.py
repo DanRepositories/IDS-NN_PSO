@@ -90,8 +90,10 @@ def update_fitness(S, S_fit, P, P_fit, Pg, Pg_fit, Np):
 
 def update_veloc(S, V, P, Pg, max_iter, current_iter):
 	a = get_alpha(max_iter, current_iter)
-	r1 = np.random.rand()
-	r2 = np.random.rand()
+
+	D = V.shape[1]
+	r1 = np.random.rand(D)
+	r2 = np.random.rand(D)
 
 	V_k = a*V + C1*r1*(P - S) + C2*r2*(Pg - S)
 	return V_k

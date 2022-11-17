@@ -20,9 +20,9 @@ m = X_train.shape[0]		# Dimension del vector de entrada
 L = 10				# Cantidad de nodos de la capa oculta
 K = y_train.shape[0]		# Cantidad de nodos de la capa de salida
 mu = 0.001			# Tasa de aprendizaje
-Np = 20				# Cantidad de particulas del enjambre
+Np = 10				# Cantidad de particulas del enjambre
 max_iter_ann = 800		# Cantidad de iteraciones de la etapa de train
-max_iter_pso = 500		# Cantidad de iteraciones del pso
+max_iter_pso = 200		# Cantidad de iteraciones del pso
 
 # Se obtienen las funciones de activacion a utilizar
 fun, fun_ = get_function(5)
@@ -35,13 +35,13 @@ cnf['outfun'] = outfun
 cnf['outfun_'] = outfun_
 
 f1_scores = []
-for i in range(1):
+for i in range(5):
 	w, v = ann_train_pso(X_train, y_train, cnf)
 
 	# Se entrena la red
-	w_, v_ = ann_train(X_train, y_train, w, v, cnf)
+	w, v = ann_train(X_train, y_train, w, v, cnf)
 
-	y_predict = np.round(forward(X_test, w_, v_, fun, outfun)).astype(int)
+	y_predict = np.round(forward(X_test, w, v, fun, outfun)).astype(int)
 
 	cm = get_confusion_matrix(y_test, y_predict)
 	print(cm)
