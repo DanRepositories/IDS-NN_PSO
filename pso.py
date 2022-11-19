@@ -110,14 +110,15 @@ def ann_train_pso(x, y, cnf):
 	
 	S, V, P, Pg, P_fit, Pg_fit = init_pso(x, y, m, L, K, Np, H, f)
 	r_clip = get_r(L, m)
-
+	pso_MSE = []
 	for i in range(max_iter):
 		V = update_veloc(S, V, P, Pg, max_iter, i)
 		V = np.clip(V, -r_clip, r_clip)
 		S = S + V
 		S_fit = ann_fitness(S, x, y, m, L, K, H, f)
 		P, P_fit, Pg, Pg_fit = update_fitness(S, S_fit, P, P_fit, Pg, Pg_fit, Np)
+		pso_MSE.append(Pg_fit)
 		
 	w, v = extract_weights(Pg, m, L, K)
-	return w, v
+	return w, v, pso_MSE
 

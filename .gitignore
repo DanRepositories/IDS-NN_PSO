@@ -5,6 +5,7 @@
 KDDTrain.txt
 KDDTest.txt
 *.csv
+*.npz
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
