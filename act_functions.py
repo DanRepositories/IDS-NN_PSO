@@ -8,6 +8,12 @@ _lambda = 1.0507
 def get_function(num_function):
 	if 1 == num_function:
 		return np.vectorize(relu), np.vectorize(dev_relu)
+	if 2 == num_function:
+		return np.vectorize(l_relu), np.vectorize(dev_l_relu)
+	if 3 == num_function:
+		return np.vectorize(elu), np.vectorize(dev_elu)
+	if 4 == num_function:
+		return np.vectorize(selu), np.vectorize(dev_selu)
 	if 5 == num_function:
 		return np.vectorize(sigmoid), np.vectorize(dev_sigmoid)
 	else:
@@ -53,7 +59,7 @@ def selu(x):
 
 def dev_selu(x):
 	f_x = selu(x)
-	return 0
+	return 0 #aquí
 
 def sigmoid(x):
 	f_x = 1 / (1 + np.exp(-x))
