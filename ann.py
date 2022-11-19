@@ -1,4 +1,5 @@
 import numpy as np
+from my_utility import get_mse
 
 def forward(x, w, v, H, f, return_nodes=False):
 	z1 = np.matmul(w, x)
@@ -16,13 +17,15 @@ def calc_gradient(x, y_true, w, v, H, H_, f, f_):
 	y, z1, h, z2 = forward(x, w, v, H, f, return_nodes=True)
 	e = y - y_true
 
+	mse = get_mse(y_true, y)
+
 	d_0 = e * f_(z2)
 	dE_dv = np.matmul(d_0, h.T)
 
 	d_h = np.matmul(v.T, d_0) * H_(z1)
 	dE_dw = np.matmul(d_h, x.T)
 
-	return dE_dw, dE_dv
+	return dE_dw, dE_dv, mse
 
 def ann_train(x, y_true, w, v, cnf):
 	max_iter = cnf['max_iter_ann']
@@ -31,12 +34,15 @@ def ann_train(x, y_true, w, v, cnf):
 	H_ = cnf['fun_']
 	f = cnf['outfun']
 	f_ = cnf['outfun_']
-
+	ann_MSE=[]
 	for i in range(max_iter):
-		dE_dw, dE_dv = calc_gradient(x, y_true, w, v, H, H_, f, f_)
+		dE_dw, dE_dv, mse = calc_gradient(x, y_true, w, v, H, H_, f, f_)
 
 		v = v - mu * dE_dv
 		w = w - mu * dE_dw
+		ann_MSE.append(mse)
 
-	return w, v
+
+
+	return w, v, ann_MSE
 
