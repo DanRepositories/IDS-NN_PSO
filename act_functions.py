@@ -59,7 +59,7 @@ def selu(x):
 	if x > 0:
 		return _lambda * x
 	else:
-		return _lambda * (_alpha*(np.exp(x) - 1))
+		return _lambda * (_alpha * (np.exp(x) - 1))
 
 def dev_selu(x):
 	if x > 0:
