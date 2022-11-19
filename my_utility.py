@@ -34,8 +34,8 @@ def readConfigAndData():
 	nFunc, L, Np, max_iter_pso = configPSO[0], configPSO[1], configPSO[2], configPSO[3]
 
 	#Leer y obtener la configuracion del BP
-	configBP = np.loadtxt("cnf_ann_bp.csv", dtype=int)
-	max_iter_ann, mu = configBP[0], configBP[1]
+	configBP = np.loadtxt("cnf_ann_bp.csv", dtype=float)
+	max_iter_ann, mu = int(configBP[0]), configBP[1]
 
 	#Obtener m y K
 	m = X_train.shape[0]		# Dimension del vector de entrada
