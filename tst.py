@@ -26,10 +26,8 @@ cm = get_confusion_matrix(y_test, y_predict)
 # Se guarda la matriz de confusión 
 np.savetxt("cmatriz.csv", np.array(cm), fmt='%i')
 
-# Se calculan los f-scores y su media
+# Se obtienen los fscores y su media
 f1 = get_metrics(cm)
-mean_f1 = np.mean(f1)
-f1.append(mean_f1)
 
 # Se guardan los f-scores 
 np.savetxt("fscores.csv", np.array(f1))
