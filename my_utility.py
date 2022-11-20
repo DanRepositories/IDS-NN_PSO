@@ -24,10 +24,14 @@ def get_mse(y_true, y_pred):
 	return mse
 	
 def readConfigAndData():
-	#Leer los datos para training
+	#Leer los datos para training y test
 	FILE_DATA_TRAIN = 'dtrn.csv'
 	FILE_LABEL_TRAIN = 'etrn.csv'
+	FILE_DATA_TEST = 'dtst.csv'
+	FILE_LABEL_TEST = 'etst.csv'
+
 	X_train, y_train = load_data(FILE_DATA_TRAIN, FILE_LABEL_TRAIN)
+	X_test, y_test = load_data(FILE_DATA_TEST, FILE_LABEL_TEST)
 
 	#Leer y obtener la configuracion del PSO
 	configPSO = np.loadtxt("cnf_ann_pso.csv", dtype=int)
@@ -51,4 +55,7 @@ def readConfigAndData():
 	cnf['outfun_'] = outfun_
 	cnf['X_train'] = X_train
 	cnf['y_train'] = y_train
+	cnf['X_test'] = X_test
+	cnf['y_test'] = y_test
+
 	return cnf

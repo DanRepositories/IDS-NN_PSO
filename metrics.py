@@ -40,8 +40,7 @@ def get_metrics(cm):
 	for j in range(k):
 		fscore_result[j] = fscore(j, cm, k)
 
-	fscore_result[k] = np.mean(fscore_result[:-1])
-	return fscore_result
+	return fscore_result[:-1]
 
 def get_confusion_matrix(y_true, y_pred):
 	k, N = y_pred.shape

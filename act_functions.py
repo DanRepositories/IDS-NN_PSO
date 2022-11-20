@@ -1,7 +1,8 @@
 import numpy as np
 
 # Constantes
-_alpha = 1.6732
+_alpha_elu = 0.1
+_alpha_selu = 1.6732
 _lambda = 1.0507
 
 # Funcion que obtiene una funcion de activacion y su derivada dependiendo del numero ingresado
@@ -47,25 +48,25 @@ def elu(x):
 	if x > 0:
 		return x
 	else:
-		return _alpha * (np.exp(x) - 1)
+		return _alpha_elu * (np.exp(x) - 1)
 
 def dev_elu(x):
 	if x > 0:
 		return 1
 	else:
-		return _alpha * np.exp(x) 
+		return _alpha_elu * np.exp(x) 
 
 def selu(x):
 	if x > 0:
 		return _lambda * x
 	else:
-		return _lambda * (_alpha * (np.exp(x) - 1))
+		return _lambda * (_alpha_selu * (np.exp(x) - 1))
 
 def dev_selu(x):
 	if x > 0:
 		return _lambda 
 	else:
-		return _lambda * (_alpha * np.exp(x)) 
+		return _lambda * (_alpha_selu * np.exp(x)) 
 
 def sigmoid(x):
 	f_x = 1 / (1 + np.exp(-x))
