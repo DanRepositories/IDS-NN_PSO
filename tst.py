@@ -32,4 +32,4 @@ mean_f1 = np.mean(f1)
 f1.append(mean_f1)
 
 # Se guardan los f-scores 
-np.savetxt("fscores.csv", np.array([f1]).T)
+np.savetxt("fscores.csv", np.array(f1))
