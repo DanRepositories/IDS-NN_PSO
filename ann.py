@@ -27,7 +27,9 @@ def calc_gradient(x, y_true, w, v, H, H_, f, f_):
 
 	return dE_dw, dE_dv, mse
 
-def ann_train(x, y_true, w, v, cnf):
+def ann_train(w, v, cnf):
+	x = cnf['X_train']
+	y_true = cnf['y_train']
 	max_iter = cnf['max_iter_ann']
 	mu = cnf['mu']
 	H = cnf['fun']

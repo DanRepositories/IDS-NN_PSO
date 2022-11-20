@@ -99,7 +99,9 @@ def update_veloc(S, V, P, Pg, max_iter, current_iter):
 	return V_k
 
 
-def ann_train_pso(x, y, cnf):
+def ann_train_pso(cnf):
+	x = cnf['X_train']
+	y = cnf['y_train']
 	m = cnf['m']
 	L = cnf['L']
 	K = cnf['K']
