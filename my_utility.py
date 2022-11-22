@@ -8,14 +8,9 @@ def get_one_hot(y):
 
 def load_data(file_data, file_label):
 	X = np.loadtxt(file_data, delimiter=',', dtype=float)
-	y = np.loadtxt(file_label, dtype=float)
+	y = np.loadtxt(file_label, delimiter=',', dtype=int)
 
-	data_set = np.concatenate((X, y.reshape((-1, 1))), axis=1)
-	np.random.shuffle(data_set)
-
-	y = data_set[:, -1].astype(int)
-	X = np.delete(data_set, -1, axis=1)
-	return X.T, get_one_hot(y).T
+	return X.T, y.T
 
 def get_mse(y_true, y_pred):
 	N = y_true.shape[1]
@@ -25,10 +20,10 @@ def get_mse(y_true, y_pred):
 	
 def readConfigAndData():
 	#Leer los datos para training y test
-	FILE_DATA_TRAIN = 'dtrn.csv'
-	FILE_LABEL_TRAIN = 'etrn.csv'
-	FILE_DATA_TEST = 'dtst.csv'
-	FILE_LABEL_TEST = 'etst.csv'
+	FILE_DATA_TRAIN = 'xtrn.csv'
+	FILE_LABEL_TRAIN = 'ytrn.csv'
+	FILE_DATA_TEST = 'xtst.csv'
+	FILE_LABEL_TEST = 'ytst.csv'
 
 	X_train, y_train = load_data(FILE_DATA_TRAIN, FILE_LABEL_TRAIN)
 	X_test, y_test = load_data(FILE_DATA_TEST, FILE_LABEL_TEST)
