@@ -18,7 +18,7 @@ w = pesos['arr_0']
 v = pesos['arr_1']
 
 # Se obtiene el vector con las predicciones
-y_predict = np.round(forward(X_test, w, v, fun, outfun)).astype(int)
+y_predict = get_one_hot(np.argmin(forward(X_test, w, v, fun, outfun), axis=0)).T
 
 # Se genera la matriz de confusion y
 cm = get_confusion_matrix(y_test, y_predict)
@@ -31,3 +31,4 @@ f1 = get_metrics(cm)
 
 # Se guardan los f-scores 
 np.savetxt("fscores.csv", np.array(f1))
+
