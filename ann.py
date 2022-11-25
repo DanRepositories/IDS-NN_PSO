@@ -4,7 +4,7 @@ from act_functions import activation_function
 
 def forward(x, w, v, H, f, return_nodes=False):
 	z1 = np.matmul(w, x)
-	h = activation_function(H, z1)
+	h = activation_function(1, z1)
 	
 	z2 = np.matmul(v, h)
 	y = activation_function(f, z2)
@@ -23,7 +23,7 @@ def calc_gradient(x, y_true, w, v, H, f):
 	d_0 = e * activation_function(f, z2, derivate=True)
 	dE_dv = np.matmul(d_0, h.T)
 
-	d_h = np.matmul(v.T, d_0) * activation_function(H, z1, derivate=True)
+	d_h = np.matmul(v.T, d_0) * activation_function(1, z1, derivate=True)
 	dE_dw = np.matmul(d_h, x.T)
 
 	return dE_dw, dE_dv, mse
