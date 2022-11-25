@@ -6,67 +6,34 @@ _alpha_selu = 1.6732
 _lambda = 1.0507
 
 # Funcion que obtiene una funcion de activacion y su derivada dependiendo del numero ingresado
-def get_function(num_function):
-	if 1 == num_function:
-		return np.vectorize(relu), np.vectorize(dev_relu)
-	if 2 == num_function:
-		return np.vectorize(l_relu), np.vectorize(dev_l_relu)
-	if 3 == num_function:
-		return np.vectorize(elu), np.vectorize(dev_elu)
-	if 4 == num_function:
-		return np.vectorize(selu), np.vectorize(dev_selu)
-	if 5 == num_function:
-		return np.vectorize(sigmoid), np.vectorize(dev_sigmoid)
+def activation_function(num_function, x, derivate=False):
+	if 1 == num_function:	# Relu
+		if not derivate:
+			return np.maximum(0, x)
+		else:
+			return np.greater(x, 0).astype(float)
+	if 2 == num_function:	# L-Relu
+		if not derivate:
+			return np.maximum(0.01 * x, x)
+		else:
+			return np.piecewise(x, [x <= 0, x > 0], [lambda e: 0.01, lambda e: 1])
+	if 3 == num_function: 	# ELU
+		if not derivate:
+			return np.maximum(_alpha_elu * (np.exp(x) - 1), x)
+		else:
+			return np.piecewise(x, [x <= 0, x > 0], [lambda e: 0.1 * np.exp(e), lambda e: 1])
+	if 4 == num_function:	# SELU
+		if not derivate:
+			return np.maximum(_lambda * _alpha_selu * (np.exp(x) - 1), _lambda * x)
+		else:
+			return np.piecewise(x, [x <= 0, x > 0], [lambda e: _lambda * _alpha_selu * np.exp(e), lambda e: _lambda])
+	if 5 == num_function:	# Sigmoide
+		if not derivate:
+			return sigmoid(x)
+		else:
+			return dev_sigmoid(x)
 	else:
 		return None
-
-def relu(x):
-	if x > 0:
-		return x
-	else:
-		return 0
-
-def dev_relu(x):
-	if x > 0:
-		return 1
-	else:
-		return 0
-
-def l_relu(x):
-	if x >= 0:
-		return x
-	else:
-		return 0.01 * x
-
-def dev_l_relu(x):
-	if x >= 0:
-		return 1
-	else:
-		return 0.01 
-
-def elu(x):
-	if x > 0:
-		return x
-	else:
-		return _alpha_elu * (np.exp(x) - 1)
-
-def dev_elu(x):
-	if x > 0:
-		return 1
-	else:
-		return _alpha_elu * np.exp(x) 
-
-def selu(x):
-	if x > 0:
-		return _lambda * x
-	else:
-		return _lambda * (_alpha_selu * (np.exp(x) - 1))
-
-def dev_selu(x):
-	if x > 0:
-		return _lambda 
-	else:
-		return _lambda * (_alpha_selu * np.exp(x)) 
 
 def sigmoid(x):
 	f_x = 1 / (1 + np.exp(-x))

@@ -124,4 +124,3 @@ def ann_train_pso(cnf):
 		
 	w, v = extract_weights(Pg, m, L, K)
 	return w, v, pso_MSE
-

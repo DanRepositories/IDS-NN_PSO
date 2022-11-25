@@ -1,5 +1,4 @@
 import numpy as np
-from act_functions import get_function
 
 def get_one_hot(y):
 	K = np.unique(y).shape[0]
@@ -41,13 +40,9 @@ def readConfigAndData():
 	K = y_train.shape[0]		# Cantidad de nodos de la capa de salida
 
 	#Obtener la funcion de activacion y derivada correspondiente
-	fun, fun_ = get_function(nFunc)
-	outfun, outfun_ = get_function(5)
 	cnf = {'m':m, 'L':L, 'K':K, 'mu':mu, 'Np':Np, 'max_iter_ann': max_iter_ann, 'max_iter_pso':max_iter_pso}
-	cnf['fun'] = fun
-	cnf['fun_'] = fun_
-	cnf['outfun'] = outfun
-	cnf['outfun_'] = outfun_
+	cnf['fun'] = nFunc
+	cnf['outfun'] = 5
 	cnf['X_train'] = X_train
 	cnf['y_train'] = y_train
 	cnf['X_test'] = X_test
