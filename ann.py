@@ -36,15 +36,14 @@ def ann_train(w, v, cnf):
 	H_ = cnf['fun_']
 	f = cnf['outfun']
 	f_ = cnf['outfun_']
-	ann_MSE=[]
+
+	ann_MSE = [0] * max_iter
+
 	for i in range(max_iter):
 		dE_dw, dE_dv, mse = calc_gradient(x, y_true, w, v, H, H_, f, f_)
 
 		v = v - mu * dE_dv
 		w = w - mu * dE_dw
-		ann_MSE.append(mse)
-
-
+		ann_MSE[i] = mse
 
 	return w, v, ann_MSE
-
